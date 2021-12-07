@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const Users = require('../models/users');
 
 const getUsers = (req, res) => {
@@ -27,9 +28,21 @@ const getUserById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  Users.create({ name, about, avatar })
-    .then((user) => res.status(200).send({ data: user }))
+  const {
+    name, about, email, password, avatar,
+  } = req.body;
+  bcrypt.hash(password, 10)
+    .then((hash) => Users.create({
+      name,
+      email,
+      about,
+      password: hash,
+      avatar,
+    }))
+
+    .then((user) => res.status(200).send({
+      _id: user._id, name: user.name, about: user.about, email: user.email, avatar: user.avatar,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Bad Request Error' });
@@ -40,7 +53,11 @@ const createUser = (req, res) => {
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
-  Users.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  Users.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true },
+  )
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -52,7 +69,11 @@ const updateUser = (req, res) => {
 
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
-  Users.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+  Users.findByIdAndUpdate(
+    req.user._id,
+    { avatar },
+    { new: true, runValidators: true },
+  )
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -63,5 +84,9 @@ const updateAvatar = (req, res) => {
 };
 
 module.exports = {
-  getUsers, getUserById, createUser, updateUser, updateAvatar,
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  updateAvatar,
 };
