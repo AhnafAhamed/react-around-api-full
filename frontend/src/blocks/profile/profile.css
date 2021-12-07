@@ -1,0 +1,14 @@
+.profile {
+  margin-top: 46.25px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  margin-bottom: 46.25px;
+}
+
+@media (max-width: 1150px) {
+  .profile {
+    flex-direction: column;
+    margin-top: 70.25px;
+  }
+}

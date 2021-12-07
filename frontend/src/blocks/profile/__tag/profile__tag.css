@@ -1,0 +1,17 @@
+.profile__tag {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+@media (max-width: 1150px) {
+  .profile__tag {
+    justify-self: center;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+}
+@media (max-width: 854px) {
+  .profile__tag {
+    font-size: 14px;
+  }
+}

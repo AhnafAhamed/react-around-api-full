@@ -1,0 +1,21 @@
+.homepage {
+  width: calc(100% - 400px);
+  margin: auto;
+  font-family: "inter", sans-serif;
+  font-weight: 400;
+}
+@media (min-width: 1280px) {
+  .homepage {
+    width: 880px;
+  }
+}
+@media (max-width: 1056px) {
+  .homepage {
+    width: calc(100% - 200px);
+  }
+}
+@media (max-width: 502px) {
+  .homepage {
+    width: calc(100% - 38px);
+  }
+}

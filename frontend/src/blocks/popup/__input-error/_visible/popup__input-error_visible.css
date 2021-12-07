@@ -1,0 +1,13 @@
+.popup__input-error_visible {
+  /* position: absolute;
+  top: 35px;
+  left: 32px; */
+  display: block;
+  font-family: "Inter", serif;
+  color: #ff0000;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,7 @@
+.header__text_log-out {
+    color: #A9A9A9;
+    cursor: pointer;
+}
+.header__text_log-out:hover {
+    opacity: 0.6;
+}
