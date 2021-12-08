@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 
 const getUsers = (req, res) => {
@@ -11,8 +12,23 @@ const getUsers = (req, res) => {
     });
 };
 
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  Users.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'JWT Token', {
+        expiresIn: '7d',
+      });
+      res.status(200).send({ token });
+    })
+    .catch((err) => {
+      res.status(401).send({ message: err.message });
+    });
+};
+
 const getUserById = (req, res) => {
-  Users.findById(req.params.cardId)
+  Users.findById(req.params.id)
     .then((user) => {
       if (!user) {
         return res.status(404).send({ message: 'User Not Found' });
@@ -31,23 +47,28 @@ const createUser = (req, res) => {
   const {
     name, about, email, password, avatar,
   } = req.body;
-  bcrypt.hash(password, 10)
+  return bcrypt
+    .hash(password, 10)
     .then((hash) => Users.create({
       name,
-      email,
       about,
+      email,
       password: hash,
       avatar,
     }))
 
     .then((user) => res.status(200).send({
-      _id: user._id, name: user.name, about: user.about, email: user.email, avatar: user.avatar,
+      _id: user._id,
+      name: user.name,
+      about: user.about,
+      email: user.email,
+      avatar: user.avatar,
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Bad Request Error' });
       }
-      return res.status(500).send({ message: 'Internal Server Error' });
+      return res.status(500).send({ message: 'Internal Server Errors' });
     });
 };
 
@@ -89,4 +110,5 @@ module.exports = {
   createUser,
   updateUser,
   updateAvatar,
+  login,
 };
