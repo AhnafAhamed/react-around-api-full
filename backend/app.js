@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.post('/signin', login);
 app.post('/signup', createUser);
-app.use(auth);
+// app.use(auth);
 app.use('/', users);
 app.use('/', cards);
 
@@ -27,8 +27,6 @@ app.use((req, res) => {
 });
 
 app.post('/cards', auth, createCard);
-
-app.use(auth);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}...`);

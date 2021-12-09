@@ -1,29 +1,25 @@
 const Cards = require('../models/cards');
+const AuthorizationError = require('../errors/auth-error');
+const NotFoundError = require('../errors/not-found-error');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Cards.find({})
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch(() => {
-      res.status(500).send({ message: 'Server Error' });
-    });
+    .catch(next);
 };
 
-const getCardById = (req, res) => {
+const getCardById = (req, res, next) => {
   Cards.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: 'Card Not Found' });
+        throw new NotFoundError('Card not available');
+      } else {
+        return res.status(200).send(card);
       }
-      return res.status(200).send(card);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Bad Request Error' });
-      }
-      return res.status(500).send({ message: 'Server Error' });
-    });
+    .catch(next);
 };
 
 const createCard = (req, res) => {
@@ -39,47 +35,45 @@ const createCard = (req, res) => {
     });
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   Cards.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: 'Page Not Found' });
+        throw new NotFoundError('Card not found');
+      } else if (card.owner.toString() !== req.user._id) {
+        throw new AuthorizationError('User not authorized');
       }
       return res.status(200).send(card);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Bad Request Error' });
-      } else {
-        res.status(500).send({ message: 'Internal Server Error' });
-      }
-    });
+    .catch(next);
 };
 
-const addLike = (req, res) => {
+const addLike = (req, res, next) => {
   Cards.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Bad Request Error' });
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Card not found');
+      } else {
+        res.status(200).send({ data: card });
       }
-      return res.status(500).send({ message: 'Internal Server Error' });
-    });
+    })
+    .catch(next);
 };
 
-const removeLike = (req, res) => {
+const removeLike = (req, res, next) => {
   Cards.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Bad Request Error' });
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Card not found');
+      } else {
+        res.status(200).send({ data: card });
       }
-      return res.status(500).send({ message: 'Internal Server Error' });
-    });
+    })
+    .catch(next);
 };
 module.exports = {
   getCards, getCardById, createCard, deleteCard, addLike, removeLike,
