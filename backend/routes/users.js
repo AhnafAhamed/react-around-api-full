@@ -6,12 +6,15 @@ const
     getUsers,
     login,
     updateUser,
+    getCurrentUser,
     updateAvatar,
   } = require('../controllers/users');
 
 router.get('/users', getUsers);
 
 router.get('/users/:id', getUserById);
+
+router.get('/me', getCurrentUser);
 
 router.post('/signin', login);
 

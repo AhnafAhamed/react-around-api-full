@@ -70,6 +70,23 @@ const createUser = (req, res) => {
     });
 };
 
+const getCurrentUser = (req, res) => {
+  Users.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        res.status(404).send({ message: 'User not found' });
+      } else {
+        res.status(200).send(user);
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Bad Request Error' });
+      }
+      return res.status(500).send({ message: 'Internal Server Error' });
+    });
+};
+
 const updateUser = (req, res) => {
   const { name, about } = req.body;
   Users.findByIdAndUpdate(
@@ -107,6 +124,7 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
+  getCurrentUser,
   updateAvatar,
   login,
 };

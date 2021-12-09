@@ -14,14 +14,6 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
 });
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5d8b8592978f8bd833ca8133', // 61727c3dd4e185e6b9cfcc1d
-  };
-
-  next();
-});
-
 app.use(express.json());
 
 app.post('/signin', login);
