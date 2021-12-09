@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const getUsers = (req, res) => {
   Users.find({})
     .then((users) => {
@@ -17,9 +19,11 @@ const login = (req, res) => {
 
   Users.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'JWT Token', {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
+        { expiresIn: '7d' },
+      );
       res.status(200).send({ token });
     })
     .catch((err) => {
@@ -47,7 +51,7 @@ const createUser = (req, res) => {
   const {
     name, about, email, password, avatar,
   } = req.body;
-  return bcrypt
+  bcrypt
     .hash(password, 10)
     .then((hash) => Users.create({
       name,
@@ -57,13 +61,7 @@ const createUser = (req, res) => {
       avatar,
     }))
 
-    .then((user) => res.status(200).send({
-      _id: user._id,
-      name: user.name,
-      about: user.about,
-      email: user.email,
-      avatar: user.avatar,
-    }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Bad Request Error' });
