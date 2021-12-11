@@ -11,10 +11,12 @@ const app = express();
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const validateUrl = require('./utils/validateUrl');
 const users = require('./routes/users');
-const { createCard } = require('./controllers/cards');
 const cards = require('./routes/cards');
 const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
+const NotFoundError = require('./errors/not-found-error');
+
+require('dotenv').config();
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
@@ -54,6 +56,10 @@ app.use(auth);
 app.use('/', users);
 app.use('/', cards);
 
+app.get('*', () => {
+  throw new NotFoundError('Requested resource not found');
+});
+
 app.use(errorLogger);
 
 app.use(errors());
@@ -69,8 +75,6 @@ app.use((err, req, res, next) => {
     });
   next();
 });
-
-app.post('/cards', auth, createCard);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}...`);

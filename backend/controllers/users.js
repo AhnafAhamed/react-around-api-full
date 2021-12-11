@@ -25,10 +25,10 @@ const login = (req, res, next) => {
       }
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
         { expiresIn: '7d' },
       );
-      res.status(200).send({ jwt: token });
+      res.status(200).send(token);
     })
     .catch(next);
 };
@@ -77,7 +77,7 @@ const getCurrentUser = (req, res, next) => {
         res.status(200).send(user);
       }
     })
-    .catch(next);
+    .catch(console.log(req), next);
 };
 
 const updateUser = (req, res, next) => {
