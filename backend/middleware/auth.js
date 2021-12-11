@@ -16,12 +16,9 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    console.log({ token });
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
-    console.log(payload);
   } catch (err) {
-    // throw new AuthorizationError('Not authorizedg');
-    console.log(err);
+    throw new AuthorizationError('Not authorized');
   }
 
   req.user = payload;
