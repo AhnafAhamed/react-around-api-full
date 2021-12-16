@@ -12,7 +12,7 @@ class Api {
   }
 
   renderUserInfo() {
-    return fetch(this.baseUrl + "/users/me", {
+    return fetch(this.baseUrl + "/me", {
       headers: this.headers,
       method: "GET",
     }).then((res) => this._checkResponse(res));
@@ -37,7 +37,7 @@ class Api {
   }
 
   setUserInfo({name, about}) {
-    return fetch(this.baseUrl + "/users/me/", {
+    return fetch(this.baseUrl + "/me", {
       headers: this.headers,
       method: "PATCH",
       body: JSON.stringify({
@@ -48,7 +48,7 @@ class Api {
   }
 
   setUserAvatar(avatar) {
-    return fetch(this.baseUrl + "/users/me/avatar", {
+    return fetch(this.baseUrl + "/me/avatar", {
       headers: this.headers,
       method: "PATCH",
       body: JSON.stringify({
@@ -82,9 +82,10 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://api.ahnaf.students.nomoreparties.site",
+  // baseUrl: "https://api.ahnaf.students.nomoreparties.site",
+  baseUrl: "http://localhost:3000",
   headers: {
-    authorization: "4bb4f649-ce49-4e5f-81c2-ac119aac9e7d",
+    authorization: `Bearer ${localStorage.getItem('token')}`,
     "Content-Type": "application/json",
   },
 });

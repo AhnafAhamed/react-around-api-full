@@ -10,7 +10,7 @@ router.get('/cards', getCards);
 
 router.get('/cards/:cardId', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    cardId: Joi.string().hex().length(24),
   }),
 }), getCardById);
 
@@ -23,7 +23,7 @@ router.post('/cards', celebrate({
 
 router.delete('/cards/:cardId', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    cardId: Joi.string().hex().length(24),
   }),
 }), deleteCard);
 
