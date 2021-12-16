@@ -27,15 +27,15 @@ router.delete('/cards/:cardId', celebrate({
   }),
 }), deleteCard);
 
-router.patch('/cards/:cardId/likes', celebrate({
+router.patch('/cards/likes/:cardId', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    cardId: Joi.string().hex().length(24),
   }),
 }), addLike);
 
-router.delete('/cards/:cardId/likes', celebrate({
+router.delete('/cards/likes/:cardId', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    cardId: Joi.string().hex().length(24),
   }),
 }), removeLike);
 
