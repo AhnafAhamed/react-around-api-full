@@ -82,7 +82,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-13",
+  baseUrl: "https://api.ahnaf.students.nomoreparties.site",
   headers: {
     authorization: "4bb4f649-ce49-4e5f-81c2-ac119aac9e7d",
     "Content-Type": "application/json",
