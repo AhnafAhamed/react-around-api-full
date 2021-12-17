@@ -60,7 +60,7 @@ class Api {
   addLike(cardId) {
     return fetch(this.baseUrl + "/cards/likes/" + cardId, {
       headers: this.headers,
-      method: "PUT"
+      method: "PATCH"
     }).then((res) => this._checkResponse(res));
   }
 
