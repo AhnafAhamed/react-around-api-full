@@ -1,7 +1,6 @@
 class authorizationApi {
   constructor() {
-    // this.baseUrl = "https://api.ahnaf.students.nomoreparties.site"
-    this.baseUrl = "http://localhost:3000"
+    this.baseUrl = "https://api.ahnaf.students.nomoreparties.site"
     this.headers = {
       "Accept": "application/json",
       "Content-Type": "application/json",
@@ -44,7 +43,8 @@ class authorizationApi {
       })
   }
 
-  checkUserToken( token ) {
+  checkUserToken() {
+    const token = localStorage.getItem('token');
     return fetch(this.baseUrl + "/me", {
       method: "GET",
       headers: {

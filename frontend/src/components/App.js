@@ -74,7 +74,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      AuthApi.checkUserToken(token)
+      AuthApi.checkUserToken()
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.data.email);
