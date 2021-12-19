@@ -59,6 +59,6 @@ class authorizationApi {
   }
 }
 
-const authApi = new authorizationApi();
+const AuthApi = new authorizationApi();
 
-export default authApi;
+export default AuthApi;
