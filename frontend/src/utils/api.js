@@ -84,7 +84,7 @@ class Api {
 const api = new Api({
   baseUrl: "https://api.ahnaf.students.nomoreparties.site",
   headers: {
-    authorization: `Bearer ${localStorage.getItem('token')}`,
+    "Authorization": `Bearer ${localStorage.getItem('token')}`,
     "Content-Type": "application/json",
   },
 });
