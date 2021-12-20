@@ -69,7 +69,9 @@ const createUser = (req, res, next) => {
         }))
         .then((user) => res
           .status(200)
-          .send(user.name, user.about, user.email, user.avatar, user._id));
+          .send({
+            name: user.name, about: user.about, email: user.email, avatar: user.avatar,
+          }));
     })
     .catch(next);
 };
