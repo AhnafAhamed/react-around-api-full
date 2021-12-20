@@ -30,7 +30,9 @@ const login = (req, res, next) => {
       );
       res.status(200).send({ token });
     })
-    .catch(next);
+    .catch(() => {
+      next(new AuthorizationError('Wrong Credentials'));
+    });
 };
 
 const getUserById = (req, res, next) => {
@@ -52,7 +54,9 @@ const createUser = (req, res, next) => {
   Users.findOne({ email })
     .then((userExists) => {
       if (userExists) {
-        throw new ConflictError('The email you are trying to signup is used already');
+        throw new ConflictError(
+          'The email you are trying to signup is used already',
+        );
       }
       bcrypt
         .hash(password, 10)
@@ -63,7 +67,9 @@ const createUser = (req, res, next) => {
           password: hash,
           avatar,
         }))
-        .then((user) => res.status(200).send(user));
+        .then((user) => res
+          .status(200)
+          .send(user.name, user.about, user.email, user.avatar, user._id));
     })
     .catch(next);
 };
