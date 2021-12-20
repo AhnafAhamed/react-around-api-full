@@ -146,9 +146,7 @@ function App() {
 
     likeStatus
       .then((newCard) => {
-        console.log(cards)
         const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
-        console.log(newCards)
         setCards(newCards);
       })
       .catch((err) => {
