@@ -2,6 +2,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Card({ onCardClick, onCardLike, onCardDelete, card }) {
+
   function handleClick() {
     onCardClick(card);
   }
@@ -10,7 +11,7 @@ function Card({ onCardClick, onCardLike, onCardDelete, card }) {
   const isOwn = card.owner === currentUser._id;
 
   const isLiked = card.likes.some(likedUser => likedUser === currentUser._id);
-
+  
   const cardDeleteButtonClassName = (
     `${isOwn ? 'elements__delete-icon' : 'elements__delete-icon_hidden'}`
   ); 
