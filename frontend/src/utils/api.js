@@ -58,14 +58,14 @@ class Api {
   }
 
   addLike(cardId) {
-    return fetch(this.baseUrl + "/cards/likes/" + cardId, {
+    return fetch(this.baseUrl + `/cards/${cardId}/likes`, {
       headers: this.headers,
-      method: "PATCH"
+      method: "PUT"
     }).then((res) => this._checkResponse(res));
   }
 
   removeLike(cardId) {
-    return fetch(this.baseUrl + "/cards/likes/" + cardId, {
+    return fetch(this.baseUrl + `/cards/${cardId}/likes`, {
       headers: this.headers,
       method: "DELETE"
     }).then((res) => this._checkResponse(res));
