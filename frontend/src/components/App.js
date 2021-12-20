@@ -34,7 +34,6 @@ function App() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
-  const token = localStorage.getItem("token");
   const history = useHistory();
 
   useEffect(() => {
@@ -50,7 +49,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    if (loggedIn) {
       api
         .renderUserInfo()
         .then((data) => {
@@ -60,10 +59,10 @@ function App() {
           console.log(err);
         });
     }
-  }, [token]);
+  }, [loggedIn]);
 
   useEffect(() => {
-    if (token) {
+    if (loggedIn) {
       api
         .renderCards()
         .then((data) => {
@@ -73,21 +72,21 @@ function App() {
           console.log(err);
         });
     }
-  }, [token]);
+  }, [loggedIn]);
 
   useEffect(() => {
-    if (token) {
+    if (localStorage.getItem("token")) {
       AuthApi.checkUserToken()
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.data.email);
-          history.push("/");
+          console.log('Logged In')
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [history, token]);
+  }, []);
 
   function handleUserRegistration({ email, password }) {
     if (!email || !password) {
