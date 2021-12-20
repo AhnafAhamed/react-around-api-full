@@ -77,7 +77,7 @@ const getCurrentUser = (req, res, next) => {
         res.status(200).send(user);
       }
     })
-    .catch(console.log(req), next);
+    .catch(next);
 };
 
 const updateUser = (req, res, next) => {
