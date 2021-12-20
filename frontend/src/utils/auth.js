@@ -44,13 +44,13 @@ class authorizationApi {
   }
 
   checkUserToken() {
-    const token = localStorage.getItem('token');
+    const usertoken = localStorage.getItem('token');
     return fetch(this.baseUrl + "/me", {
       method: "GET",
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${usertoken}`,
       },
     })
     .then(data => data)
