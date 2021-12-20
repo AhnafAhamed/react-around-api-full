@@ -56,7 +56,7 @@ const addLike = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Card not found');
       } else {
-        res.status(200).send({ data: card });
+        res.status(200).send(card);
       }
     })
     .catch(next);
