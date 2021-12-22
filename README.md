@@ -6,6 +6,8 @@ Tech Stack
 * JavaScript
 * Node.js
 * Express
+* MongoDB
+* Mongoose
 
 This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users. 
 * https://ahnaf.students.nomoreparties.site/ - Live Website
